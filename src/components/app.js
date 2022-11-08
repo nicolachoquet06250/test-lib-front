@@ -1,10 +1,12 @@
 import { html } from "../../lib/index.js";
+import { onMounted } from "../../lib/lifecicle.js";
 import helloWorld from "./hello-world.js";
 
-export default html('app', ({ name = null }, { onMonted = () => null } = {}) => {
-    onMonted(() => {
-        document.querySelector('a').addEventListener('click', e => {
-            console.log(e.href)
+export default html('app', ({ name = null }) => {
+    onMounted((t) => {
+        t.querySelector('a')?.addEventListener('click', e => {
+            e.preventDefault();
+            console.log(e.currentTarget.href)
         })
     });
 
@@ -15,7 +17,7 @@ export default html('app', ({ name = null }, { onMonted = () => null } = {}) => 
             <hello-world name="toi" />
 
             <br />
-            
+
             <a  href="http://google.com" 
                 target="_blank">
                 link
