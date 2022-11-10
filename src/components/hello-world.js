@@ -1,5 +1,4 @@
-import { html } from "../../lib/index.js";
-import { onMounted } from "../../lib/lifecicle.js";
+import { html, onMounted } from "../../lib/index.js";
 
 const selector = 'hello-world';
 

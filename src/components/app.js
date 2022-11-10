@@ -1,7 +1,9 @@
-import { css } from "../../lib/css.js";
-import { html } from "../../lib/index.js";
-import { on, onMounted, watch } from "../../lib/lifecicle.js";
-import { state } from "../../lib/state.js";
+import { 
+    html, css, 
+    state, 
+    getComponent, 
+    on, onMounted, watch
+} from "../../lib/index.js";
 import helloWorld from "./hello-world.js";
 
 const selector = 'app';
@@ -21,8 +23,9 @@ export default html(selector, ({ name = null }) => {
     onMounted(function handleAppMounted(component) {
         const link = component.querySelector('a');
         const title = component.querySelector('h1');
+        const button = component.querySelector('button');
     
-        let colorUpdated = false;    
+        let colorUpdated = false;
         on('click', e => {
             const span = component.querySelector('div > span');
             
@@ -34,13 +37,17 @@ export default html(selector, ({ name = null }) => {
             if (!colorUpdated) {
                 colorUpdated = true;
                 css({ color: 'blue' })(title);
-                
+
                 setTimeout(() => {
                     css({ color: 'red' })(title);
                     colorUpdated = false;
                 }, 2000);
             }
         }, [link]).preventDefault();
+
+        on('click', e => {
+            getComponent('hello-world')(component)?.remove();
+        }, [button]).preventDefault();
 
         css(`color: red;`)(link);
         css({ color: 'red' })(title);
@@ -53,6 +60,8 @@ export default html(selector, ({ name = null }) => {
             <h1>Hello World</h1>
 
             <hello-world />
+
+            <button>Supprimer le premier composant "hello-world"</button>
 
             <hello-world name="toi" />
 
