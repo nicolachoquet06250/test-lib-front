@@ -4,13 +4,13 @@ import { onMounted } from "../../lib/lifecicle.js";
 const selector = 'hello-world';
 
 export default html(selector, ({ name = null }) => {
-    onMounted(function handleHelloWorldMounted(t) {
-        return r => console.log('hello-world removed', r);
+    onMounted(function handleHelloWorldMounted() {
+        return component => console.log('hello-world removed', component);
     })(selector);
 
     return /*html*/ `
         <div>
-            Coucou mon ${name ?? 'ami'}
+            Hello ${name ?? 'there'}
         </div>
     `;
 });
