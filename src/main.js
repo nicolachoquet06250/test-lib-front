@@ -1,4 +1,4 @@
-import { render, render_ce } from '../lib/index.js';
+import { render_ce } from '../lib/index.js';
 import App from './components/app.js';
 
 render_ce(
