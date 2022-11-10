@@ -1,17 +1,15 @@
 import { 
-    html, css, 
+    html_ce, css, 
     state, 
     getComponent, 
     on, onMounted, watch
 } from "../../lib/index.js";
-import helloWorld from "./hello-world.js";
+import HelloWorld from "./hello-world.js";
 
-const selector = 'app';
-
-export default html(selector, ({ name = null }) => {
+export default html_ce(function MyApp({ name = null }, selector) {
     const [stateValue, setState, observer] = state(10);
 
-    watch(oldVal => console.log('change', oldVal, stateValue()), [observer]);
+    watch(oldVal => console.log('change', oldVal, stateValue()), observer);
 
     // watch will be triggered ( value has changed )
     setState(20);
@@ -21,9 +19,13 @@ export default html(selector, ({ name = null }) => {
     setState(30);
 
     onMounted(function handleAppMounted(component) {
-        const link = component.querySelector('a');
-        const title = component.querySelector('h1');
-        const button = component.querySelector('button');
+        const [link, title, button] = [
+            component.querySelector('a'),
+            component.querySelector('h1'),
+            component.querySelector('button')
+        ];
+
+        css({ cursor: 'pointer' })(button);
     
         let colorUpdated = false;
         on('click', e => {
@@ -43,14 +45,13 @@ export default html(selector, ({ name = null }) => {
                     colorUpdated = false;
                 }, 2000);
             }
-        }, [link]).preventDefault();
+        }, link).preventDefault();
 
         on('click', e => {
             getComponent('hello-world')(component)?.remove();
-        }, [button]).preventDefault();
+        }, button).preventDefault();
 
-        css(`color: red;`)(link);
-        css({ color: 'red' })(title);
+        css({ color: 'red' })(link, title);
     
         return () => console.log('app removed', component);
     })(selector);
@@ -61,17 +62,17 @@ export default html(selector, ({ name = null }) => {
 
             <hello-world />
 
-            <button>Supprimer le premier composant "hello-world"</button>
+            <button type="button">
+                Supprimer le premier composant "hello-world"
+            </button>
 
             <hello-world name="toi" />
-
-            <br />
 
             <a  href="http://google.com" 
                 target="_blank">
                 link
             </a>
-            
+        
             <div>
                 <span></span>
             </div>

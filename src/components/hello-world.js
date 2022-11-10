@@ -1,8 +1,6 @@
-import { html, onMounted } from "../../lib/index.js";
+import { html_ce, onMounted } from "../../lib/index.js";
 
-const selector = 'hello-world';
-
-export default html(selector, ({ name = null }) => {
+export default html_ce(function HelloWorld({ name = null }, selector) {
     onMounted(function handleHelloWorldMounted() {
         return component => console.log('hello-world removed', component);
     })(selector);
