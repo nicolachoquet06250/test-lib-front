@@ -57,7 +57,14 @@ export default html_ce(function MyApp({ name = null }, selector) {
         }, link).preventDefault()];
 
         listeners = [...listeners, ...on('click', () => {
-            getComponent('hello-world')(component)?.remove();
+            const _component = getComponent('hello-world')(component);
+            _component.toggle();
+            console.log(_component);
+            /*if (_component.exists()) {
+                _component?.remove();
+            } else {
+                _component?.append();
+            }*/
         }, button).preventDefault()];
 
         listeners = [...listeners, ...on('input', e => {
